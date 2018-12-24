@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Windows.Forms;
 
 
 namespace CrawlerApplication
@@ -105,7 +100,7 @@ namespace CrawlerApplication
                         finalimageurls = "/images/trump.jpg";
                     }
                     string[] finallistsplit = temp.Split(new[] { "href=\"" }, StringSplitOptions.None);
-                    string[] finallistsplit1 = finallistsplit[1].Split(new[] { "\"" }, StringSplitOptions.None);//extrat URL from the tag 
+                    string[] finallistsplit1 = finallistsplit[1].Split(new[] { "\"" }, StringSplitOptions.None);//extract URL from the tag 
                     string finallisttemp = finallistsplit1[0];
                     if (temp.Contains("alt=\""))
                     {
@@ -124,13 +119,20 @@ namespace CrawlerApplication
                             NavigateUrl = finallisttemp
                         };
                         Panel_CNN.Controls.Add(lnkMicrosoft);
+
+                        if (finalcontentdesciptiontemp == "" || finalcontentdesciptiontemp.Contains("<") || finalcontentdesciptiontemp.Contains(">"))
+                            finalcontentdesciptiontemp = "Click to read this article!";
+                        else
+                            finalcontentdesciptiontemp = finalcontentdesciptiontemp + ".... READ MORE...";
+
+
                         var lnkMicrosofttext = new HyperLink
                         {
-                            Text = finalcontentdesciptiontemp + ".... READ MORE...",
+                            Text = finalcontentdesciptiontemp,
                             NavigateUrl = finallisttemp
                         };
                         Panel_CNN.Controls.Add(lnkMicrosofttext);
-                        Panel_CNN.Controls.Add(new Literal() { Text = "<hr/>" });
+                        Panel_CNN.Controls.Add(new Literal() { Text = "<hr/>" });                 
                     }
                 }
             }
